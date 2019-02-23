@@ -30,8 +30,8 @@ class DownshiftMultiple extends React.Component {
 
   handleKeyUp = e => {
     let { inputValue } = this.state;
-    inputValue = inputValue.trim();
-    if ((e.keyCode === 32 || e.keyCode === 13) && inputValue) {
+    if (inputValue && (inputValue[inputValue.length - 1] === ' ' || e.keyCode === 13)) {
+      inputValue = inputValue.trim();
       let value = {
         name: inputValue,
         address: inputValue,
@@ -68,7 +68,7 @@ class DownshiftMultiple extends React.Component {
 
   onBlur = e => {
     let inputValue = e.target.value.trim();
-    if(inputValue){
+    if (inputValue) {
       let value = {
         name: inputValue,
         address: inputValue,
@@ -179,10 +179,13 @@ function renderInput(inputProps) {
   );
 }
 
-function renderSuggestion({ suggestion, itemProps }) {
+function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
+  const isHighlighted = highlightedIndex === index;
+  // const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
   return (
     <MenuItem
       {...itemProps}
+      selected={isHighlighted}
       key={suggestion.address}
       component="div"
     >
